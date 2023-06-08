@@ -1,6 +1,5 @@
 [
     {
-      "_id": 1,
       "class_name": "Swimming",
       "description": "Learn swimming techniques and improve your skills in a fun and supportive environment.",
       "instructor": "John Smith",
@@ -12,7 +11,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 2,
       "class_name": "Basketball",
       "description": "Develop your basketball skills, teamwork, and strategic thinking through drills and games.",
       "instructor": "Sarah Williams",
@@ -24,7 +22,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 3,
       "class_name": "Soccer",
       "description": "Experience the thrill of soccer and enhance your agility, coordination, and team spirit.",
       "instructor": "Michael Johnson",
@@ -36,7 +33,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 4,
       "class_name": "Cricket",
       "description": "Learn the fundamentals of cricket and practice batting, bowling, and fielding skills.",
       "instructor": "Adam Brown",
@@ -48,7 +44,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 5,
       "class_name": "Volleyball",
       "description": "Develop your volleyball skills, including serving, passing, setting, and spiking techniques.",
       "instructor": "Emily Davis",
@@ -60,7 +55,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 6,
       "class_name": "Hockey",
       "description": "Learn the basics of hockey, including stick handling, passing, shooting, and game strategies.",
       "instructor": "Robert Johnson",
@@ -72,7 +66,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 7,
       "class_name": "Badminton",
       "description": "Improve your badminton skills, including racket techniques, footwork, and shot placement.",
       "instructor": "Olivia Smith",
@@ -84,7 +77,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 8,
       "class_name": "Dodgeball",
       "description": "Experience the excitement of dodgeball and improve your throwing, catching, and dodging skills.",
       "instructor": "Matthew Davis",
@@ -96,7 +88,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 9,
       "class_name": "Archery",
       "description": "Develop your archery skills, including proper form, aiming, and accuracy.",
       "instructor": "Sophie Wilson",
@@ -108,7 +99,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 10,
       "class_name": "Baseball",
       "description": "Learn the fundamentals of baseball, including hitting, fielding, pitching, and teamwork.",
       "instructor": "Daniel Rodriguez",
@@ -120,7 +110,6 @@
       "img": "https://example.com/lacrosse.jpg"
     },
     {
-      "_id": 11,
       "class_name": "Chess",
       "description": "Master your chess skills, including tactics, strategies, and critical thinking.",
       "instructor": "Sophia Johnson",
