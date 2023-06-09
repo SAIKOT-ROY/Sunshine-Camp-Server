@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 // middleware
 app.use(cors());
@@ -28,12 +28,54 @@ async function run() {
     await client.connect();
 
     const classCollection = client.db("courses").collection("classes")
+    const userCollection = client.db("courses").collection("users")
+    const selectedClassCollection = client.db("courses").collection("selectedClass")
 
+    // saving user
+    app.put("/users/:email", async (req, res) => {
+        const email = req.params.email
+        const user = req.body
+        const query = {email: email}
+        const options = {upsert: true}
+        const updateDoc = {
+          $set: user,
+        }
+        const result = await userCollection.updateOne(query, updateDoc, options)
+        // console.log(result);
+        res.send(result)
+    })
 
+    // get class 
     app.get("/classes", async (req, res) => {
-        const cursor = classCollection.find();
+        const cursor = classCollection.find().sort({number_of_students: -1});
         const result = await cursor.toArray()
         res.send(result)
+    })
+
+    app.post("/selectedClass", async (req, res) => {
+        const selectedClasses = req.body;
+        // console.log(selectedClasses);
+        const result = await selectedClassCollection.insertOne(selectedClasses);
+        res.send({result});
+    })
+
+    app.get("/selectedClass", async(req, res) => {
+        const result = await selectedClassCollection.find().toArray();
+        res.send(result);
+    })
+
+    // app.get("/selectedClass/:id", async(req,res) => {
+    //     const id = req.params.id;
+    //     const query = {_id: new ObjectId(id)};
+    //     const result = await selectedClassCollection.findOne(query);
+    //     res.send(result);
+    // })
+
+    app.delete("/selectedClass/:id", async(req, res) => {
+        const id = req.params.id;
+        const query = {_id: new ObjectId(id)};
+        const result = await selectedClassCollection.deleteOne(query);
+        res.send(result);
     })
 
 

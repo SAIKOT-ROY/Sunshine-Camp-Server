@@ -4,132 +4,143 @@
       "description": "Learn swimming techniques and improve your skills in a fun and supportive environment.",
       "instructor": "John Smith",
       "instructor_email": "johnsmith@example.com",
+      "instructor_img": "https://i.ibb.co/7N6GWNJ/Caeleb-Dressel-By-Jack-Spitser-CD8-I4753-scaled.jpg",
       "price": "$150 per class",
       "number_of_students": 3,
       "popularity": 9.5,
       "available_seats": 12,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/mTtqRTX/extralarge.jpg"
     },
     {
       "class_name": "Basketball",
       "description": "Develop your basketball skills, teamwork, and strategic thinking through drills and games.",
       "instructor": "Sarah Williams",
       "instructor_email": "sarahwilliams@example.com",
+      "instructor_img": "https://i.ibb.co/QdZjgx5/220818102036-lebron-contract-lakers.jpg",
       "price": "$120 per class",
       "number_of_students": 2,
       "popularity": 8.2,
       "available_seats": 10,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/h92Wvzh/752b7bf9-1fb4-4ac2-bf30-265833e54994-1200x900.jpg"
     },
     {
       "class_name": "Soccer",
       "description": "Experience the thrill of soccer and enhance your agility, coordination, and team spirit.",
       "instructor": "Michael Johnson",
       "instructor_email": "michaeljohnson@example.com",
+      "instructor_img": "https://i.ibb.co/0CppPyY/guardiola-bayern-manchester-city-3302020.jpg",
       "price": "$130 per class",
       "number_of_students": 4,
       "popularity": 7.9,
       "available_seats": 15,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/dBsy2D0/i-Stock-1148035886-scaled.jpg"
     },
     {
       "class_name": "Cricket",
       "description": "Learn the fundamentals of cricket and practice batting, bowling, and fielding skills.",
       "instructor": "Adam Brown",
       "instructor_email": "adambrown@example.com",
+      "instructor_img": "https://i.ibb.co/6rGrBWz/virat-kohli-fb-1.jpg",
       "price": "$140 per class",
       "number_of_students": 5,
       "popularity": 8.5,
       "available_seats": 20,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/yYbX5mb/istockphoto-497568258-170667a.jpg"
     },
     {
       "class_name": "Volleyball",
       "description": "Develop your volleyball skills, including serving, passing, setting, and spiking techniques.",
       "instructor": "Emily Davis",
       "instructor_email": "emilydavis@example.com",
+      "instructor_img": "https://i.ibb.co/6vW1Hyr/Untitled-2.jpg",
       "price": "$110 per class",
       "number_of_students": 6,
       "popularity": 7.8,
       "available_seats": 18,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/5FFQH6s/Document.jpg"
     },
     {
       "class_name": "Hockey",
       "description": "Learn the basics of hockey, including stick handling, passing, shooting, and game strategies.",
       "instructor": "Robert Johnson",
       "instructor_email": "robertjohnson@example.com",
+      "instructor_img": "https://i.ibb.co/7CfQSRj/31438336-web1-221228-CPW-World-Juniors-Canada-bedard-1.jpg",
       "price": "$125 per class",
       "number_of_students": 4,
       "popularity": 8.1,
       "available_seats": 15,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/nMwq2Ch/2019-0804-W-CAN-MEX-106a2.jpg"
     },
     {
       "class_name": "Badminton",
       "description": "Improve your badminton skills, including racket techniques, footwork, and shot placement.",
       "instructor": "Olivia Smith",
       "instructor_email": "oliviasmith@example.com",
+      "instructor_img": "https://i.ibb.co/JFW60Fn/desktop-wallpaper-women-badminton-player.jpg",
       "price": "$115 per class",
       "number_of_students": 4,
       "popularity": 8.1,
       "available_seats": 15,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/3kWPw8x/badminton.jpg"
     },
     {
       "class_name": "Dodgeball",
       "description": "Experience the excitement of dodgeball and improve your throwing, catching, and dodging skills.",
       "instructor": "Matthew Davis",
       "instructor_email": "matthewdavis@example.com",
+      "instructor_img": "https://i.ibb.co/Q6r5FLQ/OMNGVW62-JFC6-TZX1-TQO6.jpg",
       "price": "$110 per class",
       "number_of_students": 10,
       "popularity": 7.9,
       "available_seats": 15,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/Zxp5RNm/DSC-9167-1024x684.jpg"
     },
     {
       "class_name": "Archery",
       "description": "Develop your archery skills, including proper form, aiming, and accuracy.",
       "instructor": "Sophie Wilson",
       "instructor_email": "sophiewilson@example.com",
+      "instructor_img": "https://i.ibb.co/5nLFKZL/000-EG9-XC.jpg",
       "price": "$120 per class",
       "number_of_students": 6,
       "popularity": 8,
       "available_seats": 10,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/zGqVdYz/537a1220-2-scaled.jpg"
     },
     {
       "class_name": "Baseball",
       "description": "Learn the fundamentals of baseball, including hitting, fielding, pitching, and teamwork.",
       "instructor": "Daniel Rodriguez",
       "instructor_email": "danielrodriguez@example.com",
+      "instructor_img": "https://i.ibb.co/zZDYXht/Schrier-USA-crop.jpg",
       "price": "$130 per class",
       "number_of_students": 8,
       "popularity": 7.7,
       "available_seats": 12,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/wWqZXjm/tag-baseball-second-base-player-wallpaper-preview.jpg"
     },
     {
       "class_name": "Chess",
       "description": "Master your chess skills, including tactics, strategies, and critical thinking.",
       "instructor": "Sophia Johnson",
       "instructor_email": "sophiajohnson@example.com",
+      "instructor_img": "https://i.ibb.co/GCs8Yry/Getty-Images-1199899108.jpg",
       "price": "$100 per class",
       "number_of_students": 5,
       "popularity": 8.3,
       "available_seats": 10,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/QfGDckq/images.jpg"
     },
     {
-      "class_id": 12,
       "class_name": "Lacrosse",
       "description": "Learn the fundamentals of lacrosse, including stick handling, passing, shooting, and game strategies.",
       "instructor": "Jennifer Thompson",
       "instructor_email": "jenniferthompson@example.com",
+      "instructor_img": "https://i.ibb.co/hWXkDqW/images.jpg",
       "price": "$140 per class",
       "number_of_students": 7,
       "popularity": 8.4,
       "available_seats": 10,
-      "img": "https://example.com/lacrosse.jpg"
+      "img": "https://i.ibb.co/g6rH4GX/2021-youth-girls-1080.jpg"
     }
   ]
