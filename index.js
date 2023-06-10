@@ -31,6 +31,7 @@ async function run() {
     const classCollection = client.db("courses").collection("classes")
     const userCollection = client.db("courses").collection("users")
     const selectedClassCollection = client.db("courses").collection("selectedClass")
+    const enrolledClassCollection = client.db("courses").collection("enrolledClass")
 
     // saving user
     app.put("/users/:email", async (req, res) => {
@@ -93,12 +94,6 @@ async function run() {
         res.send(result);
     })
 
-    // app.get("/selectedClass/:id", async(req,res) => {
-    //     const id = req.params.id;
-    //     const query = {_id: new ObjectId(id)};
-    //     const result = await selectedClassCollection.findOne(query);
-    //     res.send(result);
-    // })
 
     app.delete("/selectedClass/:id", async(req, res) => {
         const id = req.params.id;
@@ -106,6 +101,25 @@ async function run() {
         const result = await selectedClassCollection.deleteOne(query);
         res.send(result);
     })
+    // for payment history
+    app.get('/dashboard/enrolled', async(req, res) => {
+        const result = await enrolledClassCollection.find().toArray();
+        res.send(result);
+    })
+
+    app.post('/dashboard/enrolled', async(req, res) => {
+        const completePayment = req.body;
+        const result = await enrolledClassCollection.insertOne(completePayment);
+        res.send({result})
+    })
+
+    // for individual payment for
+    app.get("/dashboard/payment/:id", async(req,res) => {
+      const id = req.params.id;
+      const query = {_id: new ObjectId(id)};
+      const result = await selectedClassCollection.findOne(query);
+      res.send(result);
+  })
 
     // create payment intent
     app.post('/create-payment-intent', async(req, res) => {
