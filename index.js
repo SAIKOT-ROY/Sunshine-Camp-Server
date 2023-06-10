@@ -110,7 +110,12 @@ async function run() {
     app.post('/dashboard/enrolled', async(req, res) => {
         const completePayment = req.body;
         const result = await enrolledClassCollection.insertOne(completePayment);
-        res.send({result})
+        console.log(completePayment)
+        // const _id = req.body._id
+        // console.log(_id)
+        const query = {_id: new ObjectId(completePayment._id)};
+        const deleteResult = await selectedClassCollection.deleteOne(query)
+        res.send({result, deleteResult})
     })
 
     // for individual payment for
