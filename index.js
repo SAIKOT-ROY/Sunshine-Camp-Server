@@ -44,6 +44,34 @@ async function run() {
         // console.log(result);
         res.send(result)
     })
+    // get user
+    app.get("/users", async (req, res) => {
+        const cursor = userCollection.find()
+        const result = await cursor.toArray()
+        res.send(result)
+    })
+
+    // get user by email
+    app.get("/users/:email", async (req, res) => {
+        const email = req.params.email
+        const query = {email: email}
+        const result = await userCollection.findOne(query)
+        console.log(result);
+        res.send(result)
+    })
+
+    // Set role of user
+    app.patch("/users/:email", async(req, res) => {
+        const email = req.params.email;
+        const {role} = req.body;
+        const query = {email: email}
+        const update = {
+          $set : {role: role}
+        };
+        const result = await userCollection.updateOne(query, update)
+        res.send(result)
+    })
+
 
     // get class 
     app.get("/classes", async (req, res) => {
