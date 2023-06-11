@@ -95,7 +95,7 @@ async function run() {
     app.put("/selectedClass/:id", async (req, res) => {
       const selectedClass = req.body;
       const id = req.params.id;
-      console.log(selectedClass)
+      // console.log(selectedClass)
     
       const filter = { _id: new ObjectId(id) };
       const existingClass = await selectedClassCollection.findOne(filter);
@@ -137,17 +137,20 @@ async function run() {
         const result = await selectedClassCollection.deleteOne(query);
         res.send(result);
     })
+
+    
     // for payment history
     app.get('/dashboard/enrolled', async(req, res) => {
         const result = await enrolledClassCollection.find().toArray();
         res.send(result);
     })
 
+
     app.put('/dashboard/enrolled/:id', async(req, res) => {
         const id = req.params.id
         const completePayment = req.body;
         const result = await enrolledClassCollection.insertOne(completePayment);
-        console.log(completePayment)
+        // console.log(completePayment)
         
         const query = {_id: new ObjectId(id)};
         const deleteResult = await selectedClassCollection.deleteOne(query)
@@ -158,6 +161,18 @@ async function run() {
         res.send({result, deleteResult, updatedResult})
     })
 
+
+
+    // instructor add class
+    app.post("/dashboard/addClass", async (req, res) => {
+      const addNewClass = req.body;
+      console.log(addNewClass);
+      const result = await classCollection.insertOne(addNewClass);
+      res.send(result);
+    });
+    
+
+
     // for individual payment for
     app.get("/dashboard/payment/:id", async(req,res) => {
       const id = req.params.id;
@@ -166,7 +181,7 @@ async function run() {
       res.send(result);
   })
 
-    // create payment intent
+    // create payment intent for stripe
     app.post('/create-payment-intent', async(req, res) => {
         const {price} = req.body;
         if(price){
