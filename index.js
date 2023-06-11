@@ -82,12 +82,47 @@ async function run() {
         res.send(result)
     })
 
-    app.post("/selectedClass", async (req, res) => {
-        const selectedClasses = req.body;
-        // console.log(selectedClasses);
-        const result = await selectedClassCollection.insertOne(selectedClasses);
-        res.send({result});
-    })
+    // app.put("/selectedClass", async (req, res) => {
+    //     const selectedClasses = req.body;
+    //     // console.log(selectedClasses);
+    //     const filter = {_id: selectedClasses._id}
+    //     const update = {$set: selectedClasses}
+    //     const options = {upsert : true}
+    //     const result = await selectedClassCollection.updateOne(filter, update, options);
+    //     res.send({result});
+    // })
+
+    app.put("/selectedClass/:id", async (req, res) => {
+      const selectedClass = req.body;
+      const id = req.params.id;
+      console.log(selectedClass)
+    
+      const filter = { _id: new ObjectId(id) };
+      const existingClass = await selectedClassCollection.findOne(filter);
+      console.log(existingClass);
+    
+      try{
+        if (existingClass) {
+          const update = { $set: selectedClass };
+          const options = {upsert: true}
+          const result = await selectedClassCollection.updateOne(filter, update, options);
+          return  res.send({ result });
+      
+        } else {
+          const newClass = { _id: new ObjectId(id), ...selectedClass };
+          const result = await selectedClassCollection.insertOne(newClass);
+          res.send({ result });
+        }
+      }
+      catch(error){
+        if (error.code === 11000) {
+          res.status(400).send({ error: "Duplicate key error" });
+        } else {
+          res.status(500).send({ error: "Internal server error" });
+        }
+      }
+    });
+    
 
     app.get("/selectedClass", async(req, res) => {
         const result = await selectedClassCollection.find().toArray();
@@ -97,6 +132,7 @@ async function run() {
 
     app.delete("/selectedClass/:id", async(req, res) => {
         const id = req.params.id;
+        console.log(id)
         const query = {_id: new ObjectId(id)};
         const result = await selectedClassCollection.deleteOne(query);
         res.send(result);
@@ -107,15 +143,19 @@ async function run() {
         res.send(result);
     })
 
-    app.post('/dashboard/enrolled', async(req, res) => {
+    app.put('/dashboard/enrolled/:id', async(req, res) => {
+        const id = req.params.id
         const completePayment = req.body;
         const result = await enrolledClassCollection.insertOne(completePayment);
         console.log(completePayment)
-        // const _id = req.body._id
-        // console.log(_id)
-        const query = {_id: new ObjectId(completePayment._id)};
+        
+        const query = {_id: new ObjectId(id)};
         const deleteResult = await selectedClassCollection.deleteOne(query)
-        res.send({result, deleteResult})
+
+        const update = {$inc: {available_seats: - 1} };
+        const updatedResult = await enrolledClassCollection.updateOne(query, update);
+        
+        res.send({result, deleteResult, updatedResult})
     })
 
     // for individual payment for
