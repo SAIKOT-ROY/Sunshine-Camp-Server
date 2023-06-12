@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const jwt = require('jsonwebtoken');
 require("dotenv").config();
 const stripe = require('stripe')(process.env.PAYMENT_SECRET_KEY)
 const port = process.env.PORT || 5000;
@@ -23,9 +24,26 @@ const client = new MongoClient(uri, {
   }
 });
 
+// validate jwt token
+   const verifyJWT = (req, res, next) => {
+      const authorization = req.headers.authorization
+      // console.log(authorization);
+      const token = authorization.split(' ')[1]
+      // console.log(token);
+
+      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+        if(err){
+          return res.status(401).send({error: true, message: 'Unauthorized access'})
+        }
+        req.decoded = decoded
+      })
+   } 
+
+
+
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
+   // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
     const classCollection = client.db("courses").collection("classes")
@@ -33,7 +51,20 @@ async function run() {
     const selectedClassCollection = client.db("courses").collection("selectedClass")
     const enrolledClassCollection = client.db("courses").collection("enrolledClass")
 
-    // saving user
+    // jwt verify
+    app.post('/jwt', async (req, res) => {
+        const email = req.body
+        const token = jwt.sign(email, process.env.ACCESS_TOKEN_SECRET, {
+          expiresIn: '7d'
+        })
+        // console.log(token);
+        // console.log(email);
+        res.send({token})
+    })
+
+
+
+   // saving user
     app.put("/users/:email", async (req, res) => {
         const email = req.params.email
         const user = req.body
@@ -46,14 +77,14 @@ async function run() {
         // console.log(result);
         res.send(result)
     })
-    // get user
+  // get user
     app.get("/users", async (req, res) => {
         const cursor = userCollection.find()
         const result = await cursor.toArray()
         res.send(result)
     })
 
-    // get user by email
+  // get user by email
     app.get("/users/:email", async (req, res) => {
         const email = req.params.email
         const query = {email: email}
@@ -62,7 +93,7 @@ async function run() {
         res.send(result)
     })
 
-    // Set role of user
+ // Set role of user
     app.patch("/users/:email", async(req, res) => {
         const email = req.params.email;
         const {role} = req.body;
@@ -75,7 +106,7 @@ async function run() {
     })
 
 
-    // get class 
+  // get class 
     app.get("/classes", async (req, res) => {
         const cursor = classCollection.find().sort({number_of_students: -1});
         const result = await cursor.toArray()
@@ -99,7 +130,7 @@ async function run() {
     
       const filter = { _id: new ObjectId(id) };
       const existingClass = await selectedClassCollection.findOne(filter);
-      console.log(existingClass);
+      // console.log(existingClass);
     
       try{
         if (existingClass) {
@@ -132,14 +163,14 @@ async function run() {
 
     app.delete("/selectedClass/:id", async(req, res) => {
         const id = req.params.id;
-        console.log(id)
+        // console.log(id)
         const query = {_id: new ObjectId(id)};
         const result = await selectedClassCollection.deleteOne(query);
         res.send(result);
     })
 
-    
-    // for payment history
+
+  // for payment history
     app.get('/dashboard/enrolled', async(req, res) => {
         const result = await enrolledClassCollection.find().toArray();
         res.send(result);
@@ -162,18 +193,22 @@ async function run() {
     })
 
 
-
-    // instructor add class
+  // instructor add class
     app.post("/dashboard/addClass", async (req, res) => {
-      const addNewClass = req.body;
-      console.log(addNewClass);
-      const result = await classCollection.insertOne(addNewClass);
-      res.send(result);
+        const addNewClass = req.body;
+        // console.log(addNewClass);
+        const result = await classCollection.insertOne(addNewClass);
+        res.send(result);
     });
+
+  // instructor get class
+    app.get("/dashboard/addClass", async(req, res) => {
+        const filter = { activeRole : 'requested'}
+        const result = await classCollection.find(filter).toArray();
+        res.send(result)
+    })
     
-
-
-    // for individual payment for
+   // for individual payment for
     app.get("/dashboard/payment/:id", async(req,res) => {
       const id = req.params.id;
       const query = {_id: new ObjectId(id)};
@@ -181,7 +216,36 @@ async function run() {
       res.send(result);
   })
 
-    // create payment intent for stripe
+
+  // Admin Approve / Deny A added Class
+    // app.patch("/dashboard/addClass/:email", async(req, res) => {
+    //     const email = req.params.email;
+    //     console.log(email)
+    //     const {status} = req.body;
+    //     const query = {email: email}
+    //     const update = {
+    //       $set: {status: status}
+    //     };
+    //     const result = await selectedClassCollection.updateOne(query, update)
+    //     res.send(result)
+    // })
+
+    app.patch("/dashboard/addClass/:id", async (req, res) => {
+      const id = req.params.id;
+      const {status} = req.body
+      const query = {_id: new ObjectId(id)};
+      const update = {
+        $set: { status: status},
+      };
+
+      const result = await classCollection.updateOne(query, update);
+      console.log(result);
+      res.send(result);
+    });
+
+    
+
+   // create payment intent for stripe
     app.post('/create-payment-intent', async(req, res) => {
         const {price} = req.body;
         if(price){
@@ -198,7 +262,7 @@ async function run() {
     })
 
 
-    // Send a ping to confirm a successful connection
+   // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
