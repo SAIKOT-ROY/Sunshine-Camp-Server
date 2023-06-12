@@ -25,19 +25,20 @@ const client = new MongoClient(uri, {
 });
 
 // validate jwt token
-   const verifyJWT = (req, res, next) => {
-      const authorization = req.headers.authorization
-      // console.log(authorization);
-      const token = authorization.split(' ')[1]
-      // console.log(token);
 
-      jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-        if(err){
-          return res.status(401).send({error: true, message: 'Unauthorized access'})
-        }
-        req.decoded = decoded
-      })
-   } 
+  //  const verifyJWT = (req, res, next) => {
+  //     const authorization = req.headers.authorization
+  //     // console.log(authorization);
+  //     const token = authorization.split(' ')[1]
+  //     // console.log(token);
+
+  //     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+  //       if(err){
+  //         return res.status(401).send({error: true, message: 'Unauthorized access'})
+  //       }
+  //       req.decoded = decoded
+  //     })
+  //  } 
 
 
 
@@ -89,7 +90,7 @@ async function run() {
         const email = req.params.email
         const query = {email: email}
         const result = await userCollection.findOne(query)
-        // console.log(result);
+        console.log(result);
         res.send(result)
     })
 
@@ -126,12 +127,10 @@ async function run() {
     app.put("/selectedClass/:id", async (req, res) => {
       const selectedClass = req.body;
       const id = req.params.id;
-      // console.log(selectedClass)
     
       const filter = { _id: new ObjectId(id) };
       const existingClass = await selectedClassCollection.findOne(filter);
-      // console.log(existingClass);
-    
+  
       try{
         if (existingClass) {
           const update = { $set: selectedClass };
@@ -172,11 +171,11 @@ async function run() {
 
   // for payment history
     app.get('/dashboard/enrolled', async(req, res) => {
-        const result = await enrolledClassCollection.find().toArray();
+        const result = await enrolledClassCollection.find().sort({date: -1}).toArray();
         res.send(result);
     })
 
-
+  // for delete or insert 
     app.put('/dashboard/enrolled/:id', async(req, res) => {
         const id = req.params.id
         const completePayment = req.body;
