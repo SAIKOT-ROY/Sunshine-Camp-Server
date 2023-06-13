@@ -64,7 +64,6 @@ async function run() {
     })
 
 
-
    // saving user
     app.put("/users/:email", async (req, res) => {
         const email = req.params.email
@@ -78,6 +77,8 @@ async function run() {
         // console.log(result);
         res.send(result)
     })
+
+
   // get user
     app.get("/users", async (req, res) => {
         const cursor = userCollection.find()
@@ -90,7 +91,7 @@ async function run() {
         const email = req.params.email
         const query = {email: email}
         const result = await userCollection.findOne(query)
-        console.log(result);
+        // console.log(result);
         res.send(result)
     })
 
@@ -185,12 +186,16 @@ async function run() {
         const query = {_id: new ObjectId(id)};
         const deleteResult = await selectedClassCollection.deleteOne(query)
 
+        const updateQuery = { _id: id };
         const update = {$inc: {available_seats: - 1} };
-        const updatedResult = await enrolledClassCollection.updateOne(query, update);
+        console.log(update)
+        const updatedResult = await enrolledClassCollection.updateOne(updateQuery, update);
         
         res.send({result, deleteResult, updatedResult})
+        console.log(updatedResult)
     })
 
+   
 
   // instructor add class
     app.post("/dashboard/addClass", async (req, res) => {
@@ -231,16 +236,37 @@ async function run() {
 
     app.patch("/dashboard/addClass/:id", async (req, res) => {
       const id = req.params.id;
-      const {status} = req.body
+      const {status, feedback} = req.body
+      console.log("ID", id)
+      console.log(feedback)
       const query = {_id: new ObjectId(id)};
       const update = {
-        $set: { status: status},
+        $set: { status: status, feedback: feedback},
       };
 
       const result = await classCollection.updateOne(query, update);
       console.log(result);
       res.send(result);
     });
+
+    // app.patch("/dashboard/addClass/:id", async (req, res) => {
+    //   const id = req.params.id;
+    //   const { status, feedback } = req.body;
+    //   const query = { _id: new ObjectId(id) };
+    //   const update = {
+    //     $set: { status: status },
+    //     $setOnInsert: { feedback: feedback } // Set feedback only when inserting a new document
+    //   };
+    //   const options = { upsert: true }; // Enable upsert option
+    
+    //   const result = await classCollection.updateOne(query, update, options);
+    //   console.log(result);
+    //   res.send(result);
+    // });
+    
+
+
+
 
     
 
