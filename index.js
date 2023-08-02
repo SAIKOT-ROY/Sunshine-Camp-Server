@@ -37,15 +37,26 @@ const client = new MongoClient(uri, {
   //         return res.status(401).send({error: true, message: 'Unauthorized access'})
   //       }
   //       req.decoded = decoded
+  //       next()
   //     })
   //  } 
+
+    //  const verifyAdmin = async(req, res, next) => {
+    //     const email = req.decoded.email;
+    //     const query = {email: email}
+    //     const user = await userCollection.findOne(query);
+    //     if(user?.role !== 'admin' ){
+    //       return res.status(403).send({error: true, message: 'forbidden message'});
+    //     }
+    //     next();
+    //  }
 
 
 
 async function run() {
   try {
    // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
     const classCollection = client.db("courses").collection("classes")
     const userCollection = client.db("courses").collection("users")
@@ -98,12 +109,14 @@ async function run() {
  // Set role of user
     app.patch("/users/:email", async(req, res) => {
         const email = req.params.email;
+        console.log(email)
         const {role} = req.body;
         const query = {email: email}
         const update = {
           $set : {role: role}
         };
         const result = await userCollection.updateOne(query, update)
+        console.log(result)
         res.send(result)
     })
 
@@ -177,25 +190,44 @@ async function run() {
     })
 
   // for delete or insert 
-    app.put('/dashboard/enrolled/:id', async(req, res) => {
-        const id = req.params.id
-        const completePayment = req.body;
-        const result = await enrolledClassCollection.insertOne(completePayment);
-        // console.log(completePayment)
-        
-        const query = {_id: new ObjectId(id)};
-        const deleteResult = await selectedClassCollection.deleteOne(query)
+    // app.put('/dashboard/enrolled/:id', async(req, res) => {
+    //     const id = req.params.id
+    //     const completePayment = req.body;
+    //     const result = await enrolledClassCollection.insertOne(completePayment);
 
-        const updateQuery = { _id: id };
-        const update = {$inc: {available_seats: - 1} };
-        console.log(update)
-        const updatedResult = await enrolledClassCollection.updateOne(updateQuery, update);
         
-        res.send({result, deleteResult, updatedResult})
-        console.log(updatedResult)
-    })
+    //     const query = {_id: new ObjectId(id)};
+    //     const deleteResult = await selectedClassCollection.deleteOne(query)
 
-   
+    //     const updateQuery = { _id: id };
+    //     const update = {$inc: {available_seats: - 1} };
+    //     console.log(update)
+    //     const updatedResult = await enrolledClassCollection.updateOne(updateQuery, update);
+        
+    //     res.send({result, deleteResult, updatedResult})
+    //     console.log(updatedResult)
+    // })
+
+    app.put('/dashboard/enrolled/:id', async (req, res) => {
+      const id = req.params.id;
+      const completePayment = req.body;
+      const result = await enrolledClassCollection.insertOne(completePayment);
+  
+      const query = { _id: new ObjectId(id) };
+      const deleteResult = await selectedClassCollection.deleteOne(query);
+  
+      const updateQueryEnrolled = { _id: id };
+      const updateEnrolled = { $inc: { available_seats: -1 } };
+      const updatedResultEnrolled = await enrolledClassCollection.updateOne(updateQueryEnrolled, updateEnrolled);
+  
+      const updateQueryClass = { _id: new ObjectId(id) };
+      const updateClass = { $inc: { available_seats: 1 } };
+      const updatedResultClass = await classCollection.updateOne(updateQueryClass, updateClass);
+  
+      res.send({ result, deleteResult, updatedResultEnrolled, updatedResultClass });
+  });
+  
+
 
   // instructor add class
     app.post("/dashboard/addClass", async (req, res) => {
@@ -222,18 +254,7 @@ async function run() {
 
 
   // Admin Approve / Deny A added Class
-    // app.patch("/dashboard/addClass/:email", async(req, res) => {
-    //     const email = req.params.email;
-    //     console.log(email)
-    //     const {status} = req.body;
-    //     const query = {email: email}
-    //     const update = {
-    //       $set: {status: status}
-    //     };
-    //     const result = await selectedClassCollection.updateOne(query, update)
-    //     res.send(result)
-    // })
-
+  
     app.patch("/dashboard/addClass/:id", async (req, res) => {
       const id = req.params.id;
       const {status, feedback} = req.body
@@ -248,25 +269,6 @@ async function run() {
       console.log(result);
       res.send(result);
     });
-
-    // app.patch("/dashboard/addClass/:id", async (req, res) => {
-    //   const id = req.params.id;
-    //   const { status, feedback } = req.body;
-    //   const query = { _id: new ObjectId(id) };
-    //   const update = {
-    //     $set: { status: status },
-    //     $setOnInsert: { feedback: feedback } // Set feedback only when inserting a new document
-    //   };
-    //   const options = { upsert: true }; // Enable upsert option
-    
-    //   const result = await classCollection.updateOne(query, update, options);
-    //   console.log(result);
-    //   res.send(result);
-    // });
-    
-
-
-
 
     
 
